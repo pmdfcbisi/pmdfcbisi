@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <base target="_top">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    :root{--navy:#17365d;--blue:#245a91;--green:#e4f1df;--line:#d9e0e8;--bg:#f4f6f9;--text:#243247}
+    *{box-sizing:border-box} body{margin:0;background:var(--bg);font:14px Arial,sans-serif;color:var(--text)}
+    header{background:var(--navy);color:#fff;padding:18px 24px} header h1{font-size:20px;margin:0 0 5px}
+    header p{margin:0;color:#dbe7f5}.wrap{max-width:1200px;margin:22px auto;padding:0 16px}
+    .top{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:16px;flex-wrap:wrap}
+    .user{font-size:13px;color:#536174}.tabs{display:flex;gap:8px}.btn,button{border:0;border-radius:6px;padding:10px 14px;background:var(--blue);color:white;cursor:pointer;font-weight:600}
+    button.secondary{background:#e7edf4;color:#26394e}.btn:disabled,button:disabled{opacity:.55;cursor:wait}
+    .panel{background:#fff;border:1px solid var(--line);border-radius:10px;padding:20px;margin-bottom:16px;box-shadow:0 2px 8px #172b4d0b}
+    h2{font-size:17px;margin:0 0 16px;color:var(--navy)} h3{font-size:14px;margin:18px 0 10px;color:#36516e}
+    .grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+    .field{display:flex;flex-direction:column;gap:5px}.field label{font-weight:600;font-size:12px;color:#42536a}
+    input,select,textarea{width:100%;padding:9px 10px;border:1px solid #cbd5e1;border-radius:5px;background:#fff;color:#243247;font:14px Arial}
+    input:focus,select:focus,textarea:focus{outline:2px solid #b9d2ed;border-color:#5c8fbe}
+    input[readonly]{background:#f1f4f7}.span2{grid-column:span 2}.span3{grid-column:span 3}
+    .hint{font-size:12px;color:#6b7788;margin-top:4px}.lineitem{display:grid;grid-template-columns:2fr 1fr 1fr 40px;gap:8px;margin:8px 0}
+    .lineitem button{background:#b74444;padding:6px}.money{font-weight:700;color:var(--navy)}
+    .summary{display:flex;justify-content:flex-end;gap:24px;align-items:center;padding:12px;background:#f0f5fa;border-radius:6px;margin-top:12px}
+    .tablewrap{overflow:auto}table{width:100%;border-collapse:collapse;min-width:700px}th,td{padding:10px;border-bottom:1px solid var(--line);text-align:left;font-size:13px}th{background:#edf2f7;color:#334b66}
+    .badge{padding:4px 8px;border-radius:12px;background:#edf2f7;font-size:11px;text-transform:uppercase}
+    .hidden{display:none!important}.loginbox{max-width:430px;margin:55px auto}.checkgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}.checkitem{display:flex;gap:8px;align-items:center;padding:8px;border:1px solid var(--line);border-radius:5px;background:#fbfcfe}.checkitem input{width:auto}.toolbar{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.passwordpanel{max-width:520px}.notice{padding:12px;border-radius:6px;margin-bottom:12px;background:#fff4d6;color:#71520b}
+    .error{background:#fde8e7;color:#8d2924}.success{background:#e5f4e8;color:#225b30}
+    @media(max-width:800px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.span3{grid-column:span 2}}
+    @media(max-width:540px){.grid{grid-template-columns:1fr}.span2,.span3{grid-column:span 1}.lineitem{grid-template-columns:1fr 1fr}.lineitem button{grid-column:span 2}}
+  </style>
+</head>
+<body>
+<header><h1>Dashboard Input Proposal PMD-FC</h1><p>Form pengajuan demplot dan trial</p></header>
+<div id="loginSection" class="panel loginbox">
+  <h2>Login Dashboard PMD-FC</h2>
+  <form onsubmit="doLogin(event)">
+    <div class="field" style="margin-bottom:12px"><label>Email</label><input id="loginEmail" type="email" autocomplete="username" required></div>
+    <div class="field" style="margin-bottom:14px"><label>Password</label><input id="loginPassword" type="password" autocomplete="current-password" required></div>
+    <button id="loginBtn" type="submit" style="width:100%">Login</button>
+  </form>
+  <div id="loginMessage" class="hint" style="margin-top:12px"></div>
+</div>
+<div class="wrap hidden" id="appSection">
+  <div class="top"><div id="userInfo" class="user">Memuat profil pengguna...</div>
+    <div class="toolbar"><button class="secondary" onclick="togglePassword()">Ganti Password</button><button class="secondary" onclick="doLogout()">Logout</button></div><div class="tabs"><button id="tabForm" onclick="showTab('form')">Input Proposal</button><button class="secondary" id="tabList" onclick="showTab('list')">Daftar Proposal</button></div>
+  </div>
+  <div id="message"></div>
+  <section id="passwordSection" class="panel passwordpanel hidden">
+    <h2>Ganti Password</h2>
+    <form onsubmit="submitPassword(event)">
+      <div class="field" style="margin-bottom:10px"><label>Password Lama</label><input id="oldPassword" type="password" required></div>
+      <div class="field" style="margin-bottom:10px"><label>Password Baru (minimal 6 karakter)</label><input id="newPassword" type="password" minlength="6" required></div>
+      <div class="field" style="margin-bottom:12px"><label>Ulangi Password Baru</label><input id="confirmPassword" type="password" minlength="6" required></div>
+      <button type="submit">Simpan Password</button>
+      <button type="button" class="secondary" onclick="togglePassword()">Batal</button>
+    </form>
+  </section>
+  <section id="formSection">
+    <form id="proposalForm" onsubmit="submitForm(event)">
+      <div class="panel"><h2>1. Identitas Project</h2><div class="grid">
+        <div class="field span2"><label>Nama Project *</label><select id="projectName" required onchange="projectChanged()"><option value="">Pilih project</option></select></div>
+        <div class="field"><label>Kode Project</label><input id="projectCode" readonly></div>
+        <div class="field"><label>Crop</label><input id="projectCrop" readonly></div>
+        <div class="field"><label>Kategori</label><input id="projectCategory" readonly></div>
+        <div class="field"><label>Tahun</label><input id="projectYear" readonly></div>
+        <div class="field"><label>Area *</label><select id="area" required></select></div>
+        <div class="field"><label>PMD Representative *</label><select id="representative" required></select></div>
+      </div></div>
+      <div class="panel"><h2>2. Identitas Petani dan Lokasi</h2><div class="grid">
+        <div class="field"><label>Petani Mitra *</label><input id="farmerName" required></div>
+        <div class="field"><label>No. HP</label><input id="phone" inputmode="tel"></div>
+        <div class="field"><label>Luas Lahan (m²)</label><input id="landArea" type="number" min="0"></div>
+        <div class="field"><label>Desa</label><input id="village"></div>
+        <div class="field"><label>Provinsi</label><select id="province" onchange="provinceChanged()"><option value="">Pilih provinsi</option></select></div>
+        <div class="field"><label>Kabupaten/Kota</label><select id="regency" onchange="regencyChanged()"><option value="">Pilih kabupaten/kota</option></select></div>
+        <div class="field"><label>Kecamatan</label><select id="district"><option value="">Pilih kecamatan</option></select></div>
+        <div class="field"><label>Koordinat</label><input id="coordinates" placeholder="Latitude, longitude"></div>
+        <div class="field"><label>Elevasi (mdpl)</label><input id="elevation" type="number"></div>
+      </div></div>
+      <div class="panel"><h2>3. Praktik Budidaya</h2><div class="grid">
+        <div class="field"><label>Tekstur Tanah</label><select id="soilTexture"><option value="">Pilih</option><option>Liat</option><option>Lempung</option><option>Lempung berpasir</option><option>Lainnya</option></select></div>
+        <div class="field"><label>Jika lainnya (tekstur tanah)</label><input id="soilOther"></div>
+        <div class="field"><label>Olah Tanah</label><select id="tillage"><option value="">Pilih</option><option>Olah tanah sempurna</option><option>Olah tanah minimum</option><option>Tanpa olah tanah</option></select></div>
+        <div class="field"><label>Pengairan</label><select id="irrigation"><option value="">Pilih</option><option>Irigasi teknis</option><option>Irigasi semi teknis</option><option>Irigasi pompa</option><option>Tadah hujan</option><option>Lainnya</option></select></div>
+        <div class="field"><label>Jika lainnya (pengairan)</label><input id="irrigationOther"></div>
+        <div class="field"><label>Kategori Lahan</label><select id="landCategory"><option value="">Pilih</option><option>Tadah hujan</option><option>Sawah</option></select></div>
+        <div class="field"><label>Tanggal Pupuk Dasar</label><input id="baseDate" type="date"></div>
+        <div class="field"><label>Tanggal Pupuk Susulan 1</label><input id="top1Date" type="date"></div>
+        <div class="field"><label>Tanggal Pupuk Susulan 2</label><input id="top2Date" type="date"></div>
+        <div class="field"><label>Estimasi Tanggal Panen</label><input id="harvestDate" type="date"></div>
+      </div></div>
+      <div class="panel"><h2>4. Benih</h2><div class="grid">
+        <div class="field span3"><label>Varietas BISI (pilih satu atau lebih)</label><div id="bisiOptions" class="checkgrid"></div><div class="hint">Daftar varietas otomatis disesuaikan dengan crop project yang dipilih.</div></div>
+        <div class="field"><label>Quantity Benih BISI (kg)</label><input id="seedQty" type="number" min="0" step="0.01"></div>
+      </div>
+      <h3>Varietas cek / kompetitor</h3><div id="seedChecks"></div><button type="button" class="secondary" onclick="addLine('seedChecks')">+ Tambah varietas cek</button></div>
+      <div class="panel"><h2>5. Pupuk</h2><div id="fertilizers"></div><button type="button" class="secondary" onclick="addLine('fertilizers')">+ Tambah jenis pupuk</button></div>
+      <div class="panel"><h2>6. Agrochemical MSI</h2><div id="agroLines"></div><button type="button" class="secondary" onclick="addLine('agroLines')">+ Tambah agrochemical</button></div>
+      <div class="panel"><h2>7. Biaya Tambahan</h2><div class="grid">
+        <div class="field"><label>Tenaga Tanam (Rp.)</label><input id="planting" type="number" min="0"></div>
+        <div class="field"><label>Tenaga Perawatan (Rp.)</label><input id="maintenance" type="number" min="0"></div>
+        <div class="field"><label>Tenaga Panen (Rp.)</label><input id="harvestCost" type="number" min="0"></div>
+        <div class="field"><label>Tenaga Ubinan (Rp.)</label><input id="cropCutting" type="number" min="0"></div>
+      </div>
+      <h3>Biaya lainnya</h3><div id="extraCosts"></div><button type="button" class="secondary" onclick="addLine('extraCosts')">+ Tambah biaya lainnya</button>
+      <div class="summary"><span>Total estimasi biaya</span><span class="money" id="totalCost">Rp0</span></div></div>
+      <div style="display:flex;justify-content:flex-end;gap:10px;margin:16px 0"><button type="reset" class="secondary">Reset Form</button><button id="saveBtn" type="submit">Simpan Proposal</button></div>
+    </form>
+  </section>
+  <section id="listSection" class="panel hidden"><h2>Daftar Proposal</h2><div class="tablewrap"><table><thead><tr><th>ProjectID</th><th>Nama Project</th><th>Petani</th><th>Area</th><th>PMD Representative</th><th>Total Biaya</th><th>Status</th><th>Waktu Input</th>${CURRENT_USER && CURRENT_USER.roleKey!=='user'?'<th>Ubah Status</th>':''}</tr></thead><tbody id="proposalRows"></tbody></table></div></section>
+</div>
+<script>
+let DATA=null, CURRENT_USER=null, AUTH_TOKEN=sessionStorage.getItem('pmdAuthToken')||'';
+const $=id=>document.getElementById(id);
+function showMessage(text,type='notice'){ $('message').innerHTML=`<div class="notice ${type}">${esc(text)}</div>`; window.scrollTo({top:0,behavior:'smooth'});}
+function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function doLogin(e){
+ e.preventDefault();const btn=$('loginBtn');btn.disabled=true;btn.textContent='Memeriksa...';
+ google.script.run.withSuccessHandler(r=>{
+  AUTH_TOKEN=r.token;sessionStorage.setItem('pmdAuthToken',AUTH_TOKEN);
+  $('loginSection').classList.add('hidden');$('appSection').classList.remove('hidden');
+  loadApp();
+ }).withFailureHandler(err=>{
+  $('loginMessage').textContent=err.message||err;btn.disabled=false;btn.textContent='Login';
+ }).login($('loginEmail').value,$('loginPassword').value);
+}
+function doLogout(){
+ if(AUTH_TOKEN)google.script.run.logout(AUTH_TOKEN);
+ sessionStorage.removeItem('pmdAuthToken');AUTH_TOKEN='';DATA=null;CURRENT_USER=null;
+ $('appSection').classList.add('hidden');$('loginSection').classList.remove('hidden');
+ $('loginPassword').value='';$('loginBtn').disabled=false;$('loginBtn').textContent='Login';
+}
+function loadApp(){
+ google.script.run.withSuccessHandler(d=>{
+  DATA=d;CURRENT_USER=d.user;
+  $('userInfo').textContent=`${d.user.representative} | ${d.user.area} | ${d.user.role} | ${d.user.email}`;
+  fillSelect('projectName',d.projects.map(x=>({value:x.name,label:`${x.name} (${x.code})`})),true);
+  fillSelect('area',[...new Set(d.users.map(x=>x.area).filter(Boolean))].map(x=>({value:x,label:x})),true);
+  fillSelect('representative',d.users.map(x=>({value:x.representative,label:x.representative})).filter(x=>x.value),true);
+  if(d.user.roleKey==='user'){$('area').value=d.user.area;$('area').disabled=true;$('representative').value=d.user.representative;$('representative').disabled=true;}
+  fillSelect('province',[...new Set(d.kecamatan.map(x=>x.province).filter(Boolean))].sort().map(x=>({value:x,label:x})),true);
+  projectChanged();
+  addLine('seedChecks');addLine('fertilizers');addLine('agroLines');addLine('extraCosts');
+  ['planting','maintenance','harvestCost','cropCutting'].forEach(id=>$(id).addEventListener('input',calcTotal));
+  renderList(d.proposals);
+ }).withFailureHandler(e=>{
+  if(String(e.message||e).toLowerCase().includes('sesi login'))doLogout();
+  else showMessage(e.message||e,'error');
+ }).getInitialData(AUTH_TOKEN);
+}
+function init(){if(AUTH_TOKEN){$('loginSection').classList.add('hidden');$('appSection').classList.remove('hidden');loadApp();}}
+function fillSelect(id,items,placeholder){const el=$(id);el.innerHTML=placeholder?'<option value="">Pilih</option>':'';items.forEach(x=>{const o=document.createElement('option');o.value=x.value;o.textContent=x.label;el.appendChild(o);});}
+function projectChanged(){
+ const p=DATA.projects.find(x=>x.name===$('projectName').value);
+ $('projectCode').value=p?.code||'';$('projectCrop').value=p?.crop||'';$('projectCategory').value=p?.category||'';$('projectYear').value=p?.year||'';
+ renderBisiOptions(p?.crop||'');
+}
+function renderBisiOptions(crop){
+ const list=DATA.products.filter(x=>!crop||String(x.category).toLowerCase()===String(crop).toLowerCase());
+ $('bisiOptions').innerHTML=list.length?list.map((x,i)=>`<label class="checkitem"><input type="checkbox" class="bisi-check" value="${esc(x.name)}"><span>${esc(x.name)}</span></label>`).join(''):'<span class="hint">Tidak ada varietas untuk crop ini. Periksa database Produk BISI.</span>';
+}
+function selectedBisi(){return [...document.querySelectorAll('.bisi-check:checked')].map(x=>x.value);}
+function togglePassword(){$('passwordSection').classList.toggle('hidden');$('formSection').classList.toggle('hidden',!$('passwordSection').classList.contains('hidden'));$('listSection').classList.add('hidden');}
+function submitPassword(e){
+ e.preventDefault();if($('newPassword').value!==$('confirmPassword').value){showMessage('Konfirmasi password baru tidak sama.','error');return;}
+ google.script.run.withSuccessHandler(r=>{showMessage(r.message,'success');$('oldPassword').value='';$('newPassword').value='';$('confirmPassword').value='';togglePassword();})
+ .withFailureHandler(err=>showMessage(err.message||err,'error'))
+ .changePassword(AUTH_TOKEN,$('oldPassword').value,$('newPassword').value);
+}
+function provinceChanged(){const p=$('province').value;const a=[...new Set(DATA.kecamatan.filter(x=>x.province===p).map(x=>x.regency))].filter(Boolean).sort();fillSelect('regency',a.map(x=>({value:x,label:x})),true);fillSelect('district',[],true);}
+function regencyChanged(){const p=$('province').value,r=$('regency').value;const a=DATA.kecamatan.filter(x=>x.province===p&&x.regency===r).map(x=>x.district);fillSelect('district',[...new Set(a)].sort().map(x=>({value:x,label:x})),true);}
+function addLine(container){
+ const box=document.createElement('div');box.className='lineitem';
+ let first='', second='', third='';
+ if(container==='seedChecks'){first=`<input class="li-name" placeholder="Nama varietas cek">`;second=`<select class="li-unit"><option>pack</option><option>Kg</option><option>box</option><option>Can</option></select>`;third=`<input class="li-amount" type="number" min="0" placeholder="Total biaya (Rp.)">`;}
+ if(container==='fertilizers'){first=`<select class="li-name"><option value="">Pilih kategori pupuk</option><option>NPK</option><option>Urea</option><option>ZA</option><option>Lainnya 1</option><option>Lainnya 2</option><option>Lainnya 3</option></select>`;second=`<input class="li-brand" placeholder="Merk pupuk">`;third=`<input class="li-amount" type="number" min="0" placeholder="Amount (Rp.)">`;}
+ if(container==='agroLines'){first=`<select class="li-name"><option value="">Pilih produk MSI</option>${DATA.agroProducts.map(x=>`<option value="${esc(x.name)}">${esc(x.name)}</option>`).join('')}</select>`;second=`<input class="li-unit" placeholder="Unit" value="">`;third=`<input class="li-amount" type="number" min="0" placeholder="Jumlah unit">`;}
+ if(container==='extraCosts'){first=`<input class="li-name" placeholder="Deskripsi biaya">`;second=`<input class="li-unit" placeholder="Unit (mis. HOK)">`;third=`<input class="li-amount" type="number" min="0" placeholder="Amount (Rp.)">`;}
+ box.innerHTML=first+second+third+`<button type="button" title="Hapus" onclick="this.parentElement.remove();calcTotal()">×</button>`;
+ $(container).appendChild(box);box.querySelectorAll('input,select').forEach(el=>el.addEventListener('input',calcTotal));
+}
+function getLines(id){return [...$(id).querySelectorAll('.lineitem')].map(b=>({name:b.querySelector('.li-name')?.value||'',unit:b.querySelector('.li-unit')?.value||'',brand:b.querySelector('.li-brand')?.value||'',amount:Number(b.querySelector('.li-amount')?.value||0)}));}
+function calcTotal(){
+ const sum=id=>getLines(id).reduce((s,x)=>s+(Number(x.amount)||0),0);
+ const total=sum('seedChecks')+sum('fertilizers')+sum('extraCosts')+
+ ['planting','maintenance','harvestCost','cropCutting'].reduce((s,id)=>s+Number($(id).value||0),0);
+ $('totalCost').textContent=rupiah(total);
+}
+function rupiah(n){return new Intl.NumberFormat('id-ID',{style:'currency',currency:'IDR',maximumFractionDigits:0}).format(n||0);}
+function submitForm(e){
+ e.preventDefault();const btn=$('saveBtn');btn.disabled=true;btn.textContent='Menyimpan...';
+ const p=DATA.projects.find(x=>x.name===$('projectName').value)||{};
+ const payload={
+  project:p,area:$('area').value,representative:$('representative').value,
+  farmer:{name:$('farmerName').value,phone:$('phone').value,landArea:$('landArea').value,village:$('village').value,province:$('province').value,regency:$('regency').value,district:$('district').value,coordinates:$('coordinates').value,elevation:$('elevation').value},
+  cultivation:{soilTexture:$('soilTexture').value==='Lainnya'?$('soilOther').value:$('soilTexture').value,tillage:$('tillage').value,irrigation:$('irrigation').value==='Lainnya'?$('irrigationOther').value:$('irrigation').value,landCategory:$('landCategory').value,baseFertilizerDate:$('baseDate').value,topdress1Date:$('top1Date').value,topdress2Date:$('top2Date').value,harvestDate:$('harvestDate').value},
+  seed:{bisi:selectedBisi(),quantity:$('seedQty').value,checks:getLines('seedChecks')},
+  fertilizer:{lines:getLines('fertilizers')},
+  agro:{lines:getLines('agroLines')},
+  costs:{planting:$('planting').value,maintenance:$('maintenance').value,harvest:$('harvestCost').value,cropCutting:$('cropCutting').value,extras:getLines('extraCosts')}
+ };
+ google.script.run.withSuccessHandler(r=>{
+  showMessage(`${r.message} ProjectID: ${r.projectId}. Total: ${rupiah(r.total)}`,'success');
+  $('proposalForm').reset();['seedChecks','fertilizers','agroLines','extraCosts'].forEach(id=>$(id).innerHTML='');
+  addLine('seedChecks');addLine('fertilizers');addLine('agroLines');addLine('extraCosts');calcTotal();
+  google.script.run.withSuccessHandler(renderList).listProposals(AUTH_TOKEN);
+  btn.disabled=false;btn.textContent='Simpan Proposal';
+ }).withFailureHandler(err=>{showMessage(err.message||err,'error');btn.disabled=false;btn.textContent='Simpan Proposal';}).saveProposal(payload,AUTH_TOKEN);
+}
+function renderList(rows){
+ $('proposalRows').innerHTML=rows.length?rows.map(x=>`<tr><td>${esc(x.projectId)}</td><td>${esc(x.project)}</td><td>${esc(x.farmer)}</td><td>${esc(x.area)}</td><td>${esc(x.rep)}</td><td>${rupiah(x.total)}</td><td><span class="badge">${esc(x.status)}</span></td><td>${esc(x.timestamp)}</td>${CURRENT_USER && CURRENT_USER.roleKey!=='user'?`<td><select onchange="changeStatus('${esc(x.projectId)}',this.value)">${DATA.status.map(s=>`<option ${s===x.status?'selected':''}>${s}</option>`).join('')}</select></td>`:''}</tr>`).join(''):'<tr><td colspan="8">Belum ada proposal.</td></tr>';
+}
+function changeStatus(id,status){
+ google.script.run.withSuccessHandler(()=>{showMessage('Status proposal diperbarui.','success');google.script.run.withSuccessHandler(renderList).listProposals(AUTH_TOKEN);})
+ .withFailureHandler(e=>showMessage(e.message||e,'error')).updateProposalStatus(id,status,AUTH_TOKEN);
+}
+function showTab(tab){$('formSection').classList.toggle('hidden',tab!=='form');$('listSection').classList.toggle('hidden',tab!=='list');$('tabForm').classList.toggle('secondary',tab!=='form');$('tabList').classList.toggle('secondary',tab!=='list');if(tab==='list')google.script.run.withSuccessHandler(renderList).listProposals(AUTH_TOKEN);}
+window.addEventListener('load',init);
+</script>
+</body></html>

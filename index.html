@@ -77,12 +77,11 @@ header h1{min-width:0}
 @media(max-width:560px){#ck-date{font-size:11px}#ck-time{font-size:15px}}
 .clock{position:relative}
 .layout{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:22px 24px;align-items:start}
-#p-dash{grid-column:1;grid-row:1 / span 3}
-#p-weather{grid-column:2;grid-row:1}
-#p-news{grid-column:2;grid-row:2;min-width:0}
-#p-event{grid-column:2;grid-row:3;min-width:0}
+#p-dash{grid-column:1;grid-row:1 / span 2}
+#p-news{grid-column:2;grid-row:1;min-width:0}
+#p-event{grid-column:2;grid-row:2;min-width:0}
 .sec{margin:0 0 10px;font-size:12px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--green-d)}
-@media(max-width:900px){.layout{grid-template-columns:1fr}#p-dash,#p-weather,#p-news,#p-event{grid-column:1;grid-row:auto}#news-list,#event-list{max-height:340px}}
+@media(max-width:900px){.layout{grid-template-columns:1fr}#p-dash,#p-news,#p-event{grid-column:1;grid-row:auto}#news-list,#event-list{max-height:340px}}
 .sech{display:flex;align-items:center;justify-content:space-between;margin:0 0 10px}.sech .sec{margin:0}
 .ico{font:inherit;font-size:16px;line-height:1;color:var(--green-d);background:#fff;border:1px solid var(--line);border-radius:8px;padding:3px 8px;cursor:pointer}
 .ico:hover{background:var(--green-l)}.ico:focus-visible{outline:2px solid var(--green);outline-offset:2px}
@@ -113,8 +112,16 @@ header h1{min-width:0}
   margin-bottom: 24px;
   min-height: 150px;
   display: flex;
-  flex-direction: column;
-  justify-content: center;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+.hero-text { flex: 1; min-width: 0; }
+.hero #p-weather { flex: 0 0 340px; width: 340px; max-width: 100%; color: var(--ink); }
+@media (max-width: 900px) {
+  .hero { flex-direction: column; align-items: stretch; padding: 28px 22px; }
+  .hero #p-weather { flex: none; width: 100%; }
 }
 
 .hero h2 {
@@ -142,6 +149,7 @@ header h1{min-width:0}
 <main>
 
   <section class="hero">
+    <div class="hero-text">
     <p class="welcome">Selamat Datang di</p>
 
     <h2>PMD FC Integrated Portal</h2>
@@ -152,13 +160,14 @@ header h1{min-width:0}
     </p>
 
     <div class="accent"></div>
+    </div>
+    <section id="p-weather" class="wxc" aria-label="Cuaca setempat">
+    <div id="wx-body" aria-live="polite"><p class="wxc-s">Memuat cuaca…</p></div>
+  </section>
   </section>
 
   <!-- ====== EDIT DAFTAR DI BAWAH: tambah / ubah / hapus baris sesuai kebutuhan ====== -->
   <div class="layout">
-  <section id="p-weather" class="wxc" aria-label="Cuaca setempat">
-    <div id="wx-body" aria-live="polite"><p class="wxc-s">Memuat cuaca…</p></div>
-  </section>
   <section id="p-dash" class="pane">
   <h3 class="sec">Dashboard</h3>
   <div id="list"></div>

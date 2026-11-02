@@ -6,14 +6,44 @@
 <title>PMD-FC BISI — Dashboard Gate</title>
 <meta name="theme-color" content="#1f4d29">
 <style>
-:root{--ink:#1d2a1f;--mute:#5d6b5f;--line:#d9e0d4;--green:#2f6b3a;--green-d:#1f4d29;--green-l:#e3efdf}
+:root {
+  --ink: #263238;
+  --mute: #64748b;
+  --line: #e5eaf0;
+  --green: #2e7d32;
+  --green-d: #1f4d29;
+  --green-l: #e8f2e8;
+  --navy: #172b4d;
+  --background: #f4f6f8;
+}
 *{box-sizing:border-box}
-body{margin:0;min-height:100vh;display:flex;flex-direction:column;font:15px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:var(--ink);
-background:linear-gradient(90deg,#e7f1e2 0%,#eef3e4 38%,#f4f1dc 62%,#f6efd2 100%);background-attachment:fixed;background-color:#f4f6f2}
-header{background:linear-gradient(90deg,#1f4d29,#2f6b3a);color:#fff;padding:14px 18px;display:flex;align-items:center;gap:14px;box-shadow:0 2px 8px #0003}
-.logo{height:clamp(40px,8vw,62px);aspect-ratio:1/1;background:#fff;border-radius:8px;padding:3px;display:block;flex:none}
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  font-family: Inter, Arial, sans-serif;
+  color: var(--ink);
+  background: var(--background);
+}
+
+header {
+  background: linear-gradient(90deg, #142b46, #203d5b);
+  color: white;
+  padding: 14px 28px;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  box-shadow: 0 2px 8px rgba(0,0,0,.12);
+}
 header h1{margin:0;font-size:clamp(15px,3vw,19px)}header small{display:block;opacity:.85;font-weight:400;font-size:12px}
-main{flex:1;width:100%;max-width:1200px;margin:0 auto;padding:36px 16px 40px}
+main {
+  flex: 1;
+  width: 100%;
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 24px 22px 40px;
+}
 h2{font-size:15px;margin:0 0 4px}.lead{color:var(--mute);margin:0 0 18px}
 a.card{display:flex;flex-direction:column;gap:6px;text-decoration:none;color:inherit;background:#fff;border:1px solid var(--line);border-radius:12px;padding:18px;transition:.15s;box-shadow:0 1px 3px #0001}
 a.card:hover,a.card:focus-visible{border-color:var(--green);box-shadow:0 4px 14px #2f6b3a33;transform:translateY(-2px);outline:none}

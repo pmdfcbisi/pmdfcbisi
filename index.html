@@ -85,57 +85,84 @@ header h1{min-width:0}
 .sech{display:flex;align-items:center;justify-content:space-between;margin:0 0 10px}.sech .sec{margin:0}
 .ico{font:inherit;font-size:16px;line-height:1;color:var(--green-d);background:#fff;border:1px solid var(--line);border-radius:8px;padding:3px 8px;cursor:pointer}
 .ico:hover{background:var(--green-l)}.ico:focus-visible{outline:2px solid var(--green);outline-offset:2px}
-.wxc{min-width:0;background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px 16px;box-shadow:0 1px 3px #0001}
-.wxc-top{display:flex;align-items:center;gap:12px}
-.wxc-ic{width:46px;height:46px;flex:none;color:var(--green-d)}
-.wxc-ic svg,.wxc-chips svg,.wxc-loc svg{display:block;width:100%;height:100%}
-.wxc-t{font-size:38px;font-weight:700;line-height:1;font-variant-numeric:tabular-nums}
-.wxc-c{font-weight:700;font-size:14px}
-.wxc-s{font-size:12px;color:var(--mute);margin:0}
-.wxc-chips{display:flex;flex-wrap:wrap;gap:6px 14px;margin:10px 0;font-size:13px}
-.wxc-chips span{display:inline-flex;align-items:center;gap:5px}
-.wxc-chips svg{width:15px;height:15px;color:var(--green)}
-.wxc-loc{display:flex;align-items:center;flex-wrap:wrap;gap:6px 8px;border-top:1px solid var(--line);padding-top:10px;font-size:13px}
-.wxc-pin{width:15px;height:15px;color:var(--green-d);flex:none}
+/* CARD CUACA */
+.wxc{position:relative;overflow:hidden;min-width:0;color:var(--ink);background:linear-gradient(160deg,#ffffff 0%,#eef7ee 100%);border:1px solid rgba(255,255,255,.7);border-radius:16px;padding:14px 14px 11px;box-shadow:0 10px 28px rgba(0,0,0,.28)}
+.wxc::before{content:"";position:absolute;left:0;right:0;top:0;height:4px;background:linear-gradient(90deg,var(--green-d),#7cb342 60%,#f2b705)}
+.wxc-wm{position:absolute;right:-12px;top:8px;width:92px;height:92px;color:var(--green);opacity:.10;pointer-events:none}
+.wxc-wm svg{display:block;width:100%;height:100%}
+.wxc-top{position:relative;display:flex;align-items:center;gap:10px}
+.wxc-ic{width:46px;height:46px;flex:none;display:grid;place-items:center;border-radius:14px;color:#fff;background:linear-gradient(135deg,var(--green-d),var(--green));box-shadow:0 4px 10px rgba(31,77,41,.3)}
+.wxc-ic svg{display:block;width:26px;height:26px}
+.wxc-ic.k-sun{background:linear-gradient(135deg,#f59e0b,#fbbf24);box-shadow:0 4px 10px rgba(245,158,11,.4)}
+.wxc-ic.k-moon{background:linear-gradient(135deg,#3949ab,#5c6bc0);box-shadow:0 4px 10px rgba(57,73,171,.4)}
+.wxc-ic.k-partly{background:linear-gradient(135deg,#f59e0b,#4a90c2);box-shadow:0 4px 10px rgba(74,144,194,.4)}
+.wxc-ic.k-cloud,.wxc-ic.k-fog{background:linear-gradient(135deg,#607d8b,#90a4ae);box-shadow:0 4px 10px rgba(96,125,139,.4)}
+.wxc-ic.k-rain,.wxc-ic.k-storm,.wxc-ic.k-snow{background:linear-gradient(135deg,#1e5f99,#3b8fd0);box-shadow:0 4px 10px rgba(30,95,153,.4)}
+.wxc-t{font-size:32px;font-weight:700;line-height:1;font-variant-numeric:tabular-nums;color:var(--navy)}
+.wxc-c{font-weight:700;font-size:13px;color:var(--navy)}
+.wxc-s{font-size:11.5px;color:var(--mute);margin:0}
+.wxc-chips{position:relative;display:grid;grid-auto-flow:column;grid-auto-columns:1fr;gap:6px;margin:10px 0 9px}
+.wxc-chip{display:flex;align-items:center;gap:6px;min-width:0;background:rgba(255,255,255,.85);border:1px solid var(--line);border-radius:10px;padding:5px 7px}
+.wxc-chip .ci{width:17px;height:17px;flex:none;color:var(--green)}
+.wxc-chip .ci svg{display:block;width:100%;height:100%}
+.wxc-chip b{display:block;font-size:12px;line-height:1.15;white-space:nowrap}
+.wxc-chip small{display:block;font-size:10px;line-height:1.15;color:var(--mute)}
+.wxc-loc{position:relative;display:flex;align-items:center;flex-wrap:nowrap;gap:6px;border-top:1px dashed #cfdccf;padding-top:8px;font-size:12px}
+.wxc-pin{display:block;width:15px;height:15px;color:#d84315;flex:none}
+.wxc-pin svg{display:block;width:100%;height:100%}
+.wxc-loc>span:not(.wxc-pin):not(.pill2){font-weight:600;flex:1 1 auto;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.wxc-loc .pill2{flex:none;white-space:nowrap}
 .pill2{background:var(--green-l);color:var(--green-d);border-radius:999px;padding:2px 9px;font-size:11px;font-weight:600}
-.wxc .btn{margin-left:auto;padding:3px 10px;font-size:12px}
-.wxc-note{margin:6px 0 0;font-size:12px;color:var(--mute)}
+.wxc .btn{flex:none;padding:2px 9px;font-size:11px}
+.wxc-note{position:relative;margin:6px 0 0;font-size:11px;color:var(--mute)}
 /* HERO BANNER */
 .hero {
-  background: linear-gradient(90deg, rgba(20,43,70,.92), rgba(20,43,70,.55)),
-              url("https://images.unsplash.com/photo-1500382017468-9049fed747ef");
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(100deg, rgba(20,43,70,.95), rgba(20,43,70,.62)),
+              url("https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1600&q=70");
   background-size: cover;
   background-position: center;
   border-radius: 14px;
-  padding: 42px 36px;
+  padding: 16px 24px;
   color: white;
-  margin-bottom: 24px;
-  min-height: 150px;
+  margin-bottom: 20px;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  gap: 24px;
+  gap: 20px;
 }
+.hero::after {
+  content: "";
+  position: absolute;
+  right: 310px;
+  bottom: -26px;
+  width: 170px;
+  height: 170px;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23ffffff' stroke-width='.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 22V10'/%3E%3Cpath d='M12 13c-5 0-8-3-8-8 5 0 8 3 8 8z'/%3E%3Cpath d='M12 10c0-4 2.5-7 7-7 0 4.500-2.500 7-7 7z'/%3E%3C/svg%3E") no-repeat center / contain;
+  opacity: .16;
+  pointer-events: none;
+}
+.hero-text, .hero #p-weather { position: relative; z-index: 1; }
 .hero-text { flex: 1; min-width: 0; }
-.hero #p-weather { flex: 0 0 340px; width: 340px; max-width: 100%; color: var(--ink); }
+.hero #p-weather { flex: 0 0 310px; width: 310px; max-width: 100%; }
+.hero .welcome {
+  display: flex; align-items: center; gap: 6px;
+  margin: 0 0 3px; font-size: 11.5px; font-weight: 600;
+  letter-spacing: .14em; text-transform: uppercase; color: #a5d6a7;
+}
+.hero .welcome svg { width: 16px; height: 16px; flex: none; }
+.hero h2 { font-size: 24px; line-height: 1.2; margin: 0 0 6px; }
+.hero .subtitle { font-size: 13px; line-height: 1.5; margin: 0; max-width: 540px; opacity: .92; }
+.hero .accent { width: 46px; height: 3px; border-radius: 3px; margin-top: 10px; background: linear-gradient(90deg, #7cb342, #f2b705); }
 @media (max-width: 900px) {
-  .hero { flex-direction: column; align-items: stretch; padding: 28px 22px; }
+  .hero { flex-direction: column; align-items: stretch; padding: 18px 18px; gap: 14px; }
+  .hero::after { right: -20px; }
   .hero #p-weather { flex: none; width: 100%; }
 }
 
-.hero h2 {
-  font-size: 28px;
-  margin: 0 0 10px;
-}
-
-.hero p {
-  font-size: 15px;
-  margin: 0;
-  max-width: 650px;
-  line-height: 1.6;
-}
-  /* UKURAN LOGO BISI */
+/* UKURAN LOGO BISI */
 .logo {
   width: 60px;
   height: 60px;
@@ -150,7 +177,7 @@ header h1{min-width:0}
 
   <section class="hero">
     <div class="hero-text">
-    <p class="welcome">Selamat Datang di</p>
+    <p class="welcome"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22V10"/><path d="M12 13c-5 0-8-3-8-8 5 0 8 3 8 8z"/><path d="M12 10c0-4 2.5-7 7-7 0 4.5-2.5 7-7 7z"/></svg>Selamat Datang di</p>
 
     <h2>PMD FC Integrated Portal</h2>
 
@@ -448,21 +475,29 @@ header h1{min-width:0}
       var box = $('wx-body');
       box.textContent = '';
 
+      var wm = icon(info.k, 'wxc-wm');
+      box.appendChild(wm);
+
       var top = el('div', 'wxc-top');
       var txt = el('div');
       txt.append(el('div', 'wxc-c', info.t),
-        el('div', 'wxc-s', 'Terasa ' + Math.round(c.apparent_temperature) + '° · Min ' + Math.round(d.temperature_2m_min[0]) +
-          '° / Maks ' + Math.round(d.temperature_2m_max[0]) + '°'));
-      top.append(icon(info.k, 'wxc-ic'), el('div', 'wxc-t', Math.round(c.temperature_2m) + '°'), txt);
+        el('div', 'wxc-s', 'Terasa ' + Math.round(c.apparent_temperature) + '\u00b0 \u00b7 ' + Math.round(d.temperature_2m_min[0]) +
+          '\u00b0\u2013' + Math.round(d.temperature_2m_max[0]) + '\u00b0'));
+      top.append(icon(info.k, 'wxc-ic k-' + info.k), el('div', 'wxc-t', Math.round(c.temperature_2m) + '\u00b0'), txt);
       box.appendChild(top);
 
       var chips = el('div', 'wxc-chips');
-      function chip(key, label) { var s = el('span'); s.append(icon(key), document.createTextNode(label)); chips.appendChild(s); }
-      chip('drop', Math.round(c.relative_humidity_2m) + '%');
-      if (d.precipitation_probability_max && d.precipitation_probability_max[0] != null) {
-        chip('rain', 'Hujan ' + Math.round(d.precipitation_probability_max[0]) + '%');
+      function chip(key, val, label) {
+        var s = el('div', 'wxc-chip'), t = el('div');
+        t.append(el('b', null, val), el('small', null, label));
+        s.append(icon(key, 'ci'), t);
+        chips.appendChild(s);
       }
-      chip('wind', Math.round(c.wind_speed_10m) + ' km/j');
+      chip('drop', Math.round(c.relative_humidity_2m) + '%', 'Lembap');
+      if (d.precipitation_probability_max && d.precipitation_probability_max[0] != null) {
+        chip('rain', Math.round(d.precipitation_probability_max[0]) + '%', 'Hujan');
+      }
+      chip('wind', Math.round(c.wind_speed_10m) + ' km/j', 'Angin');
       box.appendChild(chips);
 
       var row = el('div', 'wxc-loc');

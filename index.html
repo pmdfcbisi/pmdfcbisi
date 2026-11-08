@@ -78,26 +78,32 @@ header h1{min-width:0}
 @media(max-width:560px){#ck-date{font-size:11px}#ck-time{font-size:15px}}
 .clock{position:relative}
 .layout{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:22px 24px;align-items:start}
-/* Layar sedang (901-1499px): Literasi Teknis + Insight berdampingan di baris atas; dashboard di kiri, news+kalender di kanan */
-.lt-wrap{grid-column:1 / -1;grid-row:1;display:grid;grid-template-columns:1fr 1fr;gap:22px 24px;min-width:0}
+/* Layar sedang (901-1499px): baris atas = Literasi Teknis (2 kartu) + Insight; dashboard di kiri, news+kalender di kanan */
+.lt-wrap{grid-column:1 / -1;grid-row:1;display:grid;grid-template-columns:minmax(0,2fr) minmax(0,1fr);gap:22px 24px;min-width:0}
 #p-lit,#p-ins{min-width:0;display:flex;flex-direction:column}
-#p-lit .lt,#p-ins .lt{flex:1}
-#p-dash{grid-column:1;grid-row:2 / span 2}
+.lt-stack{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:16px;flex:1}
+#p-ins .lt{flex:1}
+.layout{grid-template-rows:auto auto auto 1fr}
+#p-dash{grid-column:1;grid-row:2 / span 3}
 #p-news{grid-column:2;grid-row:2;min-width:0}
 #p-event{grid-column:2;grid-row:3;min-width:0}
+#news-list,#event-list{max-height:460px}
 .grp-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
-/* Layar lebar (>=1500px): Dashboard (2 kolom) | Literasi Teknis | Insight | News & Kalender */
+/* Layar lebar (>=1500px): Dashboard | Literasi Teknis (2 kartu bertumpuk) | Insight + News + Kalender bertumpuk.
+   Setiap kolom setinggi isinya sendiri, jadi tidak ada kartu yang melar dan menyisakan ruang kosong. */
 @media(min-width:1500px){
-  .layout{grid-template-columns:minmax(0,1fr) 290px 290px 330px}
+  #news-list,#event-list{max-height:340px}
+  .layout{grid-template-columns:minmax(0,1fr) 310px 340px;grid-template-rows:auto auto auto 1fr}
   .lt-wrap{display:contents}
-  #p-dash{grid-column:1;grid-row:1 / span 2}
-  #p-lit{grid-column:2;grid-row:1 / span 2;align-self:stretch}
-  #p-ins{grid-column:3;grid-row:1 / span 2;align-self:stretch}
-  #p-news{grid-column:4;grid-row:1}
-  #p-event{grid-column:4;grid-row:2}
+  #p-dash{grid-column:1;grid-row:1 / span 4}
+  #p-lit{grid-column:2;grid-row:1 / span 4;align-self:start}
+  #p-ins{grid-column:3;grid-row:1;align-self:start}
+  #p-news{grid-column:3;grid-row:2}
+  #p-event{grid-column:3;grid-row:3}
+  .lt-stack{grid-template-columns:1fr}
 }
 .sec{margin:0 0 10px;font-size:12px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--green-d)}
-@media(max-width:900px){.layout{grid-template-columns:1fr}#p-dash,#p-news,#p-event,.lt-wrap{grid-column:1;grid-row:auto}.lt-wrap{grid-template-columns:1fr}.grp-grid{grid-template-columns:repeat(auto-fill,minmax(240px,1fr))}#news-list,#event-list{max-height:340px}}
+@media(max-width:900px){.layout{grid-template-columns:1fr;grid-template-rows:none}#p-dash,#p-news,#p-event,.lt-wrap{grid-column:1;grid-row:auto}.lt-wrap{grid-template-columns:1fr}.grp-grid{grid-template-columns:repeat(auto-fill,minmax(240px,1fr))}#news-list,#event-list{max-height:340px}}
 .sech{display:flex;align-items:center;justify-content:space-between;margin:0 0 10px}.sech .sec{margin:0}
 .ico{font:inherit;font-size:16px;line-height:1;color:var(--green-d);background:#fff;border:1px solid var(--line);border-radius:8px;padding:3px 8px;cursor:pointer}
 .ico:hover{background:var(--green-l)}.ico:focus-visible{outline:2px solid var(--green);outline-offset:2px}
@@ -389,6 +395,65 @@ a.card:hover .wm,a.card:focus-visible .wm{opacity:.17;transform:scale(1.07) rota
 @keyframes cardIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
 @media(prefers-reduced-motion:reduce){a.card{animation:none}a.card,.ico,.wm,.go i{transition:none}}
 
+
+/* Kartu terakhir yang ganjil mengisi satu baris penuh, supaya tidak ada separuh baris kosong */
+@media(min-width:901px){.grp-grid>a.card:last-child:nth-child(odd){grid-column:1 / -1}}
+/* LITERASI: kartu TKW (header emas, beda dari hijau Bioteknologi dan biru Insight) */
+.lt.tkw:hover,.lt.tkw:focus-visible{border-color:#b7791f;box-shadow:0 6px 18px #b7791f33}
+.lt.tkw .lt-top{background:linear-gradient(135deg,#5c3503,#9a6208 62%,#c8901f)}
+.lt.tkw .lt-fact{background:#fbf0d9;border-left-color:#b7791f}
+.lt.tkw .lt-fact small,.lt-bars small{color:#6b3f04}
+.lt.tkw .lt-fact p{min-height:0}
+.lt.tkw .lt-fact p.mono{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12px;line-height:1.55}
+.lt.tkw .lt-pts li b{background:#fbf0d9;color:#6b3f04}
+.lt.tkw .lt-stats b{color:#6b3f04}
+.lt.tkw .lt-go{color:#8a5709}
+.lt-bars small{display:block;font-size:10.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;margin-bottom:6px}
+.lt-bars .r{display:grid;grid-template-columns:70px 1fr 54px;gap:6px;align-items:center;font-size:11px;margin-bottom:5px}
+.lt-bars .r span{white-space:nowrap}
+.lt-bars .r span{color:var(--mute)}
+.lt-bars .r b{text-align:right;color:#6b3f04}
+.lt-bars em{display:block;height:9px;background:#f1ead9;border-radius:999px;overflow:hidden}
+.lt-bars i{display:block;height:100%;background:#b7791f;border-radius:999px}
+.lt-bars i.lo{background:#c2552b}
+/* ISI TKW */
+.lit-modal.tkw .lit-bar{background:linear-gradient(90deg,#4f2e03,#8a5709)}
+#tkw-gmo{--brand:#9a6208;--brand-soft:#fbf0d9}
+#tkw-gmo .lit-hero{padding:22px 0 6px}
+#tkw-gmo section{padding-top:20px}
+#tkw-gmo h2{margin-bottom:.25em}
+#tkw-gmo .lead{margin-bottom:10px}
+#tkw-gmo .lit-note{margin:12px 0 0}
+#tkw-gmo .tk-formula{background:linear-gradient(135deg,#4f2e03,#8a5709);color:#fff;border-radius:12px;padding:11px 16px;margin:12px 0 0;font-size:.95rem;line-height:1.5}
+#tkw-gmo .tk-formula b{color:#ffd58a}
+#tkw-gmo .tk-2{display:grid;grid-template-columns:1fr 1fr;gap:12px;align-items:start}
+#tkw-gmo .tk-3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+#tkw-gmo .tk-4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+#tkw-gmo .tk-mas{columns:3 250px;column-gap:12px}
+#tkw-gmo .tk-mas>.lit-card{display:block;break-inside:avoid;margin:0 0 12px}
+#tkw-gmo .tk-2>*,#tkw-gmo .tk-3>.lit-card,#tkw-gmo .tk-4>.lit-card{min-width:0}
+#tkw-gmo .lit-card{padding:12px 14px}
+#tkw-gmo .tk-ul{margin:.3em 0 0;padding-left:1.1em;font-size:.92rem;color:var(--muted)}
+#tkw-gmo .tk-ul li{margin-bottom:.25em}
+#tkw-gmo .tk-ul b{color:var(--ink)}
+#tkw-gmo .tk-steps{margin:.3em 0 0;padding:0;list-style:none;counter-reset:s;display:grid;gap:7px}
+#tkw-gmo .tk-steps li{counter-increment:s;display:grid;grid-template-columns:24px 1fr;gap:8px;font-size:.92rem;color:var(--muted)}
+#tkw-gmo .tk-steps li::before{content:counter(s);display:grid;place-items:center;width:24px;height:24px;border-radius:50%;background:var(--brand-soft);color:var(--brand);font-weight:700;font-size:.8rem}
+#tkw-gmo .tk-bars{display:grid;gap:8px;margin-top:6px}
+#tkw-gmo .tk-bar{display:grid;grid-template-columns:76px 1fr 64px;gap:8px;align-items:center;font-size:.88rem}
+#tkw-gmo .tk-bar span{color:var(--muted)}
+#tkw-gmo .tk-bar b{text-align:right}
+#tkw-gmo .tk-bar div{height:16px;background:#f1ead9;border-radius:999px;overflow:hidden}
+#tkw-gmo .tk-bar i{display:block;height:100%;background:#b7791f;border-radius:999px}
+#tkw-gmo .tk-bar i.lo{background:#c2552b}
+#tkw-gmo details{margin-bottom:8px}
+@media(max-width:900px){#tkw-gmo .tk-4{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:820px){
+  #tkw-gmo .tk-2,#tkw-gmo .tk-3{grid-template-columns:1fr}
+  #tkw-gmo .tk-mas{columns:1}
+}
+@media(max-width:520px){#tkw-gmo .tk-4{grid-template-columns:1fr}}
+
 /* UKURAN LOGO BISI */
 .logo {
   width: 60px;
@@ -439,7 +504,7 @@ a.card:hover .wm,a.card:focus-visible .wm{opacity:.17;transform:scale(1.07) rota
     { nama: 'PMD-FC Monthly Projects Report (versi Web App)', grup: 'report', ket: 'Monitoring project, demplot, dan trial.', tag: 'MONTHLY REPORT 2026/2027', url: 'https://script.google.com/macros/s/AKfycbwjCkiVtG_NoqKsbqqjX8v7vM2oh2MAJvSy-NTBWrTbXct0STox7BF4tjfbiX6EgOym/exec' },
     { nama: 'Laporan Demplot Master', grup: 'demplot', ket: 'Laporan Standing Crop Master.', tag: 'Demoplot', url: 'https://docs.google.com/spreadsheets/d/1xDhiCtWnsQCTd6EtY7sJr-2mx8ruwqiVPIGGKgUhCEc/edit?gid=299302994#gid=299302994' },
     { nama: 'VTE Participatory', grup: 'plan', ket: 'Portal input data respon preferensi performa Genotype ', tag: 'Input Data VTE', url: 'https://script.google.com/macros/s/AKfycbzXIMOP52iKmFC0ENHE3UhFfPgTbvmJrZK37tAsKZvsid2SYnBp6ic3Z0FkabE7xjpEeA/exec' },
-    { nama: 'Rencana Demplot Key Farmer Padi', grup: 'demplot', ket: 'Input target lokasi dan kebutuhan benih Demplot Key Farmer Padi Hibrida', tag: 'Demplot', url: 'https://docs.google.com/spreadsheets/d/1BVoO3831IUGtSJ1_qZ0tDSzMbiLkE5M5ZB6K9u6LcYs/edit?gid=1130820725#gid=1130820725' },
+    { nama: 'Demplot Key Farmer Padi', grup: 'demplot', ket: 'Laporan Demoplot Key Farmer Padi Hibrida', tag: 'Demplot', url: 'https://docs.google.com/spreadsheets/d/1BVoO3831IUGtSJ1_qZ0tDSzMbiLkE5M5ZB6K9u6LcYs/edit?gid=1130820725#gid=1130820725' },
     { nama: 'Laporan Data Demplot Padi Hibrida', grup: 'demplot', ket: 'Input laporan project demplot Key Farmer Padi Hibrida PMD FC', tag: 'Demplot', url: 'https://script.google.com/macros/s/AKfycby9qgp4bWvAd7rIepYiyd2vgMzA4fp4F_C_tGaSJOxxJVzUWJcYp45HEgDZzBRb-6L6/exec' },
     { nama: 'Project Planning 2027', grup: 'plan', ket: 'Rencana Demplot, Trial & PMD Project 2027', tag: 'Planning 2027', url: 'https://docs.google.com/spreadsheets/d/12IMzJqdieSJS7rwpWIJ2zVcWjwngwd3tkB4D5IUKphQ/edit?gid=623540740#gid=623540740' },
     { nama: 'DPR PADI BATCH 2', grup: 'trial', ket: 'Laporan Demplot Padi Batch 2', tag: 'Uji Multi Lokasi Padi Batch 2', url: 'https://script.google.com/macros/s/AKfycbyjlUMvsUZvKJPAMw2a7WVm2JoCrVlPq4BfazIAIngxJDoMvMO6X5LMt4DKzdBmAY61nQ/exec' }
@@ -528,6 +593,7 @@ a.card:hover .wm,a.card:focus-visible .wm{opacity:.17;transform:scale(1.07) rota
   <div class="lt-wrap">
   <section id="p-lit" class="pane">
     <h3 class="sec">Literasi Teknis</h3>
+    <div class="lt-stack">
     <div class="lt" id="lt-open" role="button" tabindex="0" aria-haspopup="dialog" aria-controls="lit-modal" aria-label="Buka Literasi Bioteknologi Jagung">
       <div class="lt-top">
         <svg class="lt-wm" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width=".8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 3c0 6 10 6 10 12s-10 6-10 12"/><path d="M17 3c0 6-10 6-10 12s10 6 10 12" transform="translate(0 -3)"/><path d="M8.5 6h7M8 10h8M8.5 14h7M9 18h6" transform="translate(0 -1)"/></svg>
@@ -554,6 +620,37 @@ a.card:hover .wm,a.card:focus-visible .wm{opacity:.17;transform:scale(1.07) rota
         <div class="lt-chips" aria-hidden="true"><span>MON89034</span><span>MIR162</span><span>NK603</span><span>Bt11</span><span>GA21</span><span>TC1507</span></div>
         <div class="lt-go"><span>Baca selengkapnya &rarr;</span><small>&plusmn; 6 menit baca</small></div>
       </div>
+    </div>
+    <div class="lt tkw" id="tkw-open" role="button" tabindex="0" aria-haspopup="dialog" aria-controls="tkw-modal" aria-label="Buka Literasi Thousand Kernel Weight pada Jagung">
+      <div class="lt-top">
+        <svg class="lt-wm" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width=".8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3c3 2 4.5 5 4.5 8.5S15 18 12 20c-3-2-4.5-5-4.5-8.5S9 5 12 3z"/><path d="M12 7v9"/><path d="M9.5 10.5h5M9.5 13.5h5"/></svg>
+        <span class="tag">Literasi Teknis &middot; Komponen Hasil</span>
+        <h4>Thousand Kernel Weight (TKW) pada Jagung</h4>
+        <p>Bobot 1000 biji: cara mengukur, faktor penentu, dan cara membacanya untuk diagnosis hasil.</p>
+      </div>
+      <div class="lt-body">
+        <div class="lt-fact" aria-hidden="true">
+          <small>Rumus hasil</small>
+          <p class="mono">Hasil/ha = populasi &times; tongkol/tanaman &times; biji/tongkol &times; bobot per biji</p>
+        </div>
+        <div class="lt-bars" aria-hidden="true">
+          <small>Contoh ilustratif: TKW turun saat pengisian biji</small>
+          <div class="r"><span>TKW 320 g</span><em><i style="width:100%"></i></em><b>10,4 t/ha</b></div>
+          <div class="r"><span>TKW 280 g</span><em><i class="lo" style="width:87.5%"></i></em><b>9,1 t/ha</b></div>
+        </div>
+        <ul class="lt-pts">
+          <li><b>1</b><span><strong>Diagnosis lapangan</strong>TKW rendah atau jumlah biji rendah? Penyebabnya beda.</span></li>
+          <li><b>2</b><span><strong>Faktor penentu</strong>Genetik, cuaca, budidaya, fisiologi, pascapanen.</span></li>
+          <li><b>3</b><span><strong>Cara memaksimalkan</strong>Enam langkah dari varietas sampai panen.</span></li>
+        </ul>
+        <div class="lt-stats">
+          <div><b>5</b><span>langkah ukur</span></div>
+          <div><b>5</b><span>kelompok faktor</span></div>
+          <div><b>6</b><span>upaya</span></div>
+        </div>
+        <div class="lt-go"><span>Baca selengkapnya &rarr;</span><small>&plusmn; 6 menit baca</small></div>
+      </div>
+    </div>
     </div>
   </section>
   <script>
@@ -946,11 +1043,11 @@ a.card:hover .wm,a.card:focus-visible .wm{opacity:.17;transform:scale(1.07) rota
     <div class="lit-bar"><b id="lit-modal-title">Literasi Teknis · Bioteknologi Jagung</b><button type="button" id="lit-close">&#10005; Tutup</button></div>
     <div class="lit" id="lit-gmo">
 
-<header class="lit-hero">
+<div class="lit-hero">
   <div class="lit-eyebrow">Literasi Teknis · Jagung (<i>Zea mays</i> L.)</div>
   <h1>Bioteknologi Jagung: Event Bt, HT, dan Stacked</h1>
   <p>Ringkasan event GMO jagung utama: gen, protein, sasaran biologis, dan pengembangnya. Disusun sebagai referensi awal, bukan daftar lengkap seluruh event dunia.</p>
-</header>
+</div>
 
 <nav class="lit-nav" aria-label="Navigasi halaman">
   <button data-t="ringkas" class="on">Ringkasan</button>
@@ -1171,7 +1268,8 @@ a.card:hover .wm,a.card:focus-visible .wm{opacity:.17;transform:scale(1.07) rota
 document.addEventListener('DOMContentLoaded', function () {
   var cfg = [
     { hash: 'literasi', open: 'lt-open',  modal: 'lit-modal', close: 'lit-close', sheet: 'lit-sheet' },
-    { hash: 'insight',  open: 'ins-open', modal: 'ins-modal', close: 'ins-close', sheet: 'ins-sheet' }
+    { hash: 'insight',  open: 'ins-open', modal: 'ins-modal', close: 'ins-close', sheet: 'ins-sheet' },
+    { hash: 'tkw',      open: 'tkw-open', modal: 'tkw-modal', close: 'tkw-close', sheet: 'tkw-sheet' }
   ];
   var $ = function (id) { return document.getElementById(id); };
   var items = cfg.map(function (c) {
@@ -1217,12 +1315,12 @@ document.addEventListener('DOMContentLoaded', function () {
     <div class="lit-bar"><b id="ins-modal-title">Insight · Tantangan Jagung Indonesia</b><button type="button" id="ins-close">&#10005; Tutup</button></div>
     <div class="lit" id="ins-gmo">
 
-<header class="lit-hero">
+<div class="lit-hero">
   <div class="lit-eyebrow">Insight · Jagung Indonesia</div>
   <h1>Tantangan Jagung Indonesia dan Varietas yang Dibutuhkan ke Depan</h1>
   <p>Budidaya yang belum tepat, tanah yang makin lelah, dan iklim yang tidak menentu saling memperkuat. Karena itu varietas ke depan tidak cukup hanya berdaya hasil tinggi pada kondisi ideal.</p>
   <p class="ins-by">Abu Abdillah · PMD-FC BISI · 8 November 2026</p>
-</header>
+</div>
 
 <nav class="lit-nav" aria-label="Navigasi Insight">
   <button data-t="i-ringkas" class="on">Ringkasan</button>
@@ -1350,6 +1448,186 @@ document.addEventListener('DOMContentLoaded', function () {
 <script>
 (function(){
   var root=document.getElementById('ins-gmo');
+  var btns=root.querySelectorAll('.lit-nav button');
+  btns.forEach(function(b){b.addEventListener('click',function(){var el=root.querySelector('#'+b.dataset.t); if(el) el.scrollIntoView({behavior:'smooth',block:'start'});});});
+  if('IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){btns.forEach(function(b){b.classList.toggle('on',b.dataset.t===e.target.id);});}});},{rootMargin:'-20% 0px -70% 0px'});
+    root.querySelectorAll('section').forEach(function(s){io.observe(s);});
+  }
+})();
+</script>
+
+<!-- ====== LITERASI TKW (isi ada di dalam halaman ini) ====== -->
+<div id="tkw-modal" class="lit-modal tkw" role="dialog" aria-modal="true" aria-labelledby="tkw-modal-title" aria-hidden="true">
+  <div class="lit-sheet" id="tkw-sheet">
+    <div class="lit-bar"><b id="tkw-modal-title">Literasi Teknis &middot; Thousand Kernel Weight (TKW)</b><button type="button" id="tkw-close">&#10005; Tutup</button></div>
+    <div class="lit" id="tkw-gmo">
+
+<div class="lit-hero">
+  <div class="lit-eyebrow">Literasi Teknis · Komponen Hasil Jagung</div>
+  <h1>Thousand Kernel Weight (TKW) pada Jagung</h1>
+  <p>TKW atau bobot 1000 biji menggambarkan ukuran dan keterisian biji. Pada jagung, jumlah biji per satuan luas biasanya paling dominan menentukan hasil, sedangkan TKW sangat sensitif terhadap kondisi saat pengisian biji.</p>
+  <div class="tk-formula"><b>Hasil per ha</b> = populasi &times; tongkol per tanaman &times; biji per tongkol &times; bobot per biji <span style="opacity:.8">(TKW &divide; 1000)</span></div>
+</div>
+
+<nav class="lit-nav" aria-label="Navigasi TKW">
+  <button data-t="t-ringkas" class="on">Ringkasan</button>
+  <button data-t="t-ukur">Pengukuran</button>
+  <button data-t="t-komp">Komponen hasil</button>
+  <button data-t="t-manfaat">Manfaat</button>
+  <button data-t="t-faktor">Faktor penentu</button>
+  <button data-t="t-diag">Diagnosis</button>
+  <button data-t="t-upaya">Upaya</button>
+  <button data-t="t-contoh">Contoh hitung</button>
+  <button data-t="t-catatan">Catatan</button>
+</nav>
+
+<section id="t-ringkas">
+  <h2>Ringkasan</h2>
+  <div class="tk-3">
+    <div class="lit-card"><h3>Apa itu TKW</h3><p>Bobot (g) dari 1000 butir biji bersih, diukur pada kadar air tertentu. Menyatakan seberapa besar dan seberapa bernas biji.</p></div>
+    <div class="lit-card"><h3>Posisi dalam hasil</h3><p>TKW mewakili bobot per biji. Komponen lainnya membentuk jumlah biji per satuan luas (kernel number).</p></div>
+    <div class="lit-card"><h3>Kapan paling menentukan</h3><p>Saat terjadi cekaman selama pengisian biji (kekeringan, suhu tinggi, penyakit daun, hara terbatas), ketika jumlah biji sudah terbentuk.</p></div>
+  </div>
+</section>
+
+<section id="t-ukur">
+  <h2>1. Pengertian dan cara mengukur</h2>
+  <div class="tk-2">
+    <div class="lit-card">
+      <h3>Langkah pengukuran</h3>
+      <ol class="tk-steps">
+        <li>Ambil sampel acak yang mewakili dari hasil pipilan.</li>
+        <li>Bersihkan dari kotoran, biji pecah, dan biji tidak normal.</li>
+        <li>Hitung 1000 butir (manual atau alat penghitung biji), atau hitung 100 butir dengan beberapa ulangan lalu konversikan.</li>
+        <li>Timbang dan catat bobotnya (g).</li>
+        <li>Koreksi ke kadar air (KA) standar, misalnya 14%, 15%, atau 17% sesuai protokol uji.</li>
+      </ol>
+    </div>
+    <div style="display:grid;gap:12px">
+      <div class="lit-card">
+        <h3>Koreksi kadar air</h3>
+        <p><code>TKW terkoreksi = TKW terukur &times; (100 &minus; KA ukur) &divide; (100 &minus; KA standar)</code></p>
+        <p style="margin-top:6px">Contoh: 330 g pada KA 20% setara &plusmn;311 g pada KA 15%.</p>
+      </div>
+      <div class="lit-card">
+        <h3>Kisaran nilai</h3>
+        <p>TKW jagung hibrida umumnya sekitar 250&ndash;400 g, bergantung tipe biji (flint, semi-flint, dent), varietas, dan kondisi tumbuh. Acuan terbaik tetap deskripsi varietas dan data uji lokal.</p>
+      </div>
+    </div>
+  </div>
+  <div class="lit-note"><strong>Perbandingan hanya valid pada KA yang sama</strong>TKW sangat dipengaruhi kadar air. Membandingkan varietas, lokasi, atau musim tanpa koreksi KA akan menyesatkan.</div>
+</section>
+
+<section id="t-komp">
+  <h2>2. Posisi TKW dalam komponen hasil</h2>
+  <p class="lead">Hasil dapat dirinci menjadi: populasi &times; tongkol/tanaman &times; baris biji &times; biji per baris &times; TKW. Dua komponen terakhir yang berperan paling besar:</p>
+  <div class="tk-3">
+    <div class="lit-card"><h3>Jumlah biji per satuan luas</h3><p>Ditentukan sekitar pembungaan (silking); periode kritisnya kira-kira dua minggu sebelum sampai sesudah silking (Andrade et al., 1999). Pada banyak penelitian, komponen ini berkorelasi paling kuat dengan hasil.</p></div>
+    <div class="lit-card"><h3>TKW (bobot per biji)</h3><p>Ditentukan selama pengisian biji, dari silking hingga masak fisiologis. Berkorelasi positif dengan hasil, tetapi umumnya lebih lemah daripada jumlah biji. Sensitif terhadap pasokan asimilat (Borr&aacute;s &amp; Otegui, 2001).</p></div>
+    <div class="lit-card"><h3>Kompensasi</h3><p>Biji sedikit cenderung menjadi lebih besar, biji banyak cenderung lebih kecil. Kompensasi ini bersifat parsial, dan TKW tinggi tidak otomatis berarti hasil tinggi.</p></div>
+  </div>
+  <div class="lit-note"><strong>Kapan TKW menjadi pembatas</strong>Pada cekaman setelah jumlah biji terbentuk, pengisian biji menjadi faktor pembatas dan penurunan TKW menekan hasil secara nyata. Cekaman berat pada dua minggu pertama setelah silking masih dapat menggugurkan biji, sehingga ikut menurunkan jumlah biji.</div>
+</section>
+
+<section id="t-manfaat">
+  <h2>3. Nilai praktis TKW</h2>
+  <div class="tk-4">
+    <div class="lit-card"><h3>Seleksi dan evaluasi varietas</h3><p>Dicatat sebagai karakter pendukung pada uji daya hasil dan multi-lokasi. Heritabilitasnya umumnya lebih tinggi daripada hasil, sehingga berguna dalam seleksi.</p></div>
+    <div class="lit-card"><h3>Diagnosis lapangan</h3><p>Membedakan masalah pengisian biji (TKW rendah) dari masalah pembentukan biji (jumlah biji rendah).</p></div>
+    <div class="lit-card"><h3>Estimasi produksi</h3><p>Dipakai sebelum panen bersama data populasi dan jumlah biji per tongkol.</p></div>
+    <div class="lit-card"><h3>Benih</h3><p>Biji per kg = 1.000.000 &divide; TKW (g). Contoh: 320 g &asymp; 3.125 biji/kg. Hubungan TKW dengan vigor tidak otomatis, perlu diuji.</p></div>
+  </div>
+</section>
+
+<section id="t-faktor">
+  <h2>4. Faktor yang memengaruhi TKW</h2>
+  <div class="tk-mas">
+    <div class="lit-card"><h3>Genetik</h3><ul class="tk-ul"><li>Tipe biji: flint, semi-flint, dent</li><li>Ukuran dan bentuk biji</li><li>Laju dan lama pengisian biji</li><li>Hibrida berbeda memberi TKW berbeda pada lingkungan yang sama</li></ul></div>
+    <div class="lit-card"><h3>Lingkungan</h3><ul class="tk-ul"><li><b>Radiasi:</b> mendung panjang saat pengisian mengurangi asimilat</li><li><b>Suhu:</b> suhu tinggi mempercepat dan memperpendek pengisian</li><li><b>Air:</b> kekeringan setelah silking, penyebab utama TKW turun</li></ul></div>
+    <div class="lit-card"><h3>Budidaya</h3><ul class="tk-ul"><li><b>Populasi:</b> terlalu rapat membuat biji lebih kecil</li><li><b>Pupuk:</b> N dan K berperan; kurang N mempercepat penuaan daun</li><li><b>Waktu tanam:</b> menentukan cuaca saat silking dan pengisian</li><li><b>Gulma dan penyakit daun</b> (mis. hawar dan karat daun) mengurangi area fotosintesis</li></ul></div>
+    <div class="lit-card"><h3>Fisiologis dan morfologis</h3><ul class="tk-ul"><li><b>Stay green:</b> daun hijau lebih lama menjaga fotosintesis saat pengisian</li><li><b>Posisi biji:</b> biji ujung tongkol lebih kecil dan terbentuk lebih lambat</li><li><b>Penyerbukan serempak:</b> umur fisiologis biji seragam, ukuran lebih merata</li></ul></div>
+    <div class="lit-card"><h3>Pascapanen</h3><ul class="tk-ul"><li>Kadar air saat pengukuran</li><li>Kemasakan saat panen</li><li>Kehilangan bobot akibat pengeringan yang tidak tepat memengaruhi TKW yang tercatat</li></ul></div>
+  </div>
+</section>
+
+<section id="t-diag">
+  <h2>5. Membaca TKW untuk diagnosis</h2>
+  <p class="lead">Bandingkan TKW dengan jumlah biji per tongkol dan hasil, pada KA yang sama.</p>
+  <div class="lit-tw">
+    <table>
+      <thead><tr><th>Kondisi</th><th>Dugaan masalah</th><th>Periksa</th></tr></thead>
+      <tbody>
+        <tr><td>TKW rendah, jumlah biji normal</td><td data-l="Dugaan">Gangguan pengisian biji</td><td data-l="Periksa">Air, hara, penyakit daun, suhu, radiasi</td></tr>
+        <tr><td>TKW normal, jumlah biji rendah</td><td data-l="Dugaan">Gangguan pembentukan biji</td><td data-l="Periksa">Penyerbukan, populasi, cekaman saat silking</td></tr>
+        <tr><td>Keduanya rendah</td><td data-l="Dugaan">Masalah menyeluruh</td><td data-l="Periksa">Pemilihan varietas hingga pengelolaan budidaya</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section id="t-upaya">
+  <h2>6. Upaya memaksimalkan TKW dan hasil</h2>
+  <p class="lead">Tujuan akhirnya adalah hasil per hektar, bukan TKW semata.</p>
+  <div class="tk-mas">
+    <div class="lit-card"><h3>1. Pilih varietas sesuai</h3><ul class="tk-ul"><li>Potensi hasil tinggi, adaptasi baik di agroekosistem setempat</li><li>Cermati pengisian biji dan stay green pada deskripsi dan uji multi-lokasi</li></ul></div>
+    <div class="lit-card"><h3>2. Atur populasi dan jarak tanam</h3><ul class="tk-ul"><li>Ikuti rekomendasi varietas dan kesuburan lahan</li><li>Hindari populasi berlebihan</li><li>Tanam seragam agar silking serempak</li></ul></div>
+    <div class="lit-card"><h3>3. Pupuk berimbang, tepat waktu</h3><ul class="tk-ul"><li>N, P, K sesuai uji tanah atau rekomendasi setempat</li><li>N dibagi beberapa tahap hingga fase generatif</li><li>K cukup untuk translokasi asimilat ke biji</li></ul></div>
+    <div class="lit-card"><h3>4. Kelola air fase kritis</h3><ul class="tk-ul"><li>Prioritaskan air dari sekitar silking hingga awal pengisian biji</li><li>Atur waktu tanam agar fase kritis tidak jatuh pada periode kering atau panas ekstrem</li></ul></div>
+    <div class="lit-card"><h3>5. Lindungi daun dan tongkol</h3><ul class="tk-ul"><li>Kendalikan gulma sejak awal</li><li>Pantau hama dan penyakit rutin, terutama saat pengisian biji, dan kendalikan sesuai ambang anjuran</li></ul></div>
+    <div class="lit-card"><h3>6. Panen dan pascapanen</h3><ul class="tk-ul"><li>Bobot biji maksimum dicapai pada masak fisiologis (black layer); panen lebih awal menurunkan bobot</li><li>Keringkan ke KA aman dan seragam, ukur TKW pada KA standar</li></ul></div>
+  </div>
+</section>
+
+<section id="t-contoh">
+  <h2>7. Contoh perhitungan estimasi hasil</h2>
+  <p class="lead">Angka hipotetis untuk memperlihatkan cara hitung, bukan data lapangan.</p>
+  <div class="tk-2">
+    <div class="lit-card">
+      <h3>Perhitungan</h3>
+      <ul class="tk-ul">
+        <li>Populasi panen 65.000 tanaman/ha, 1 tongkol/tanaman</li>
+        <li>500 biji per tongkol, sehingga jumlah biji = 65.000 &times; 1 &times; 500 = <b>32.500.000 biji/ha</b></li>
+        <li>TKW 320 g (0,32 g per biji): hasil = 32.500.000 &times; 0,32 g = <b>10,4 ton/ha</b></li>
+        <li>TKW turun ke 280 g akibat cekaman pengisian biji: 32.500.000 &times; 0,28 g = <b>9,1 ton/ha</b></li>
+      </ul>
+      <p style="margin-top:8px;font-size:.88rem">Hasil dalam bobot pipil pada KA standar, komponen lain dianggap tetap.</p>
+    </div>
+    <div class="lit-card">
+      <h3>Dampak penurunan TKW</h3>
+      <div class="tk-bars">
+        <div class="tk-bar"><span>TKW 320 g</span><div><i style="width:100%"></i></div><b>10,4 t/ha</b></div>
+        <div class="tk-bar"><span>TKW 280 g</span><div><i class="lo" style="width:87.5%"></i></div><b>9,1 t/ha</b></div>
+      </div>
+      <p style="margin-top:10px"><b>Selisih &plusmn;1,3 t/ha (&minus;12,5%)</b> hanya karena TKW turun 40 g.</p>
+    </div>
+  </div>
+</section>
+
+<section id="t-catatan">
+  <h2>Kesimpulan, catatan, dan daftar pustaka</h2>
+  <div class="tk-2">
+    <div>
+      <div class="lit-card" style="margin-bottom:12px"><h3>Kesimpulan</h3><p>TKW adalah komponen hasil yang penting. Meski jumlah biji per satuan luas umumnya lebih dominan, TKW menjadi penentu utama saat terjadi cekaman setelah silking, serta indikator berguna untuk seleksi varietas, diagnosis lapangan, estimasi hasil, dan penilaian mutu benih. Upaya memaksimalkannya bertumpu pada varietas yang tepat, populasi yang diatur, pemupukan berimbang, pengelolaan air fase kritis, perlindungan tanaman, serta panen dan pascapanen yang benar.</p></div>
+      <details open><summary>Angka bersifat umum atau ilustratif</summary><p>Kisaran TKW dan contoh perhitungan adalah gambaran umum. Gunakan deskripsi varietas resmi dan data uji internal bila tersedia.</p></details>
+      <details><summary>Periode kritis dan kompensasi</summary><p>Batas waktu penentuan jumlah biji dan tingkat kompensasi bobot biji bervariasi menurut genotipe dan lingkungan. Pernyataan di halaman ini adalah pola umum.</p></details>
+    </div>
+    <div class="lit-card">
+      <h3>Daftar Pustaka</h3>
+      <ol class="refs">
+        <li>Andrade, F.H., Vega, C., Uhart, S., Cirilo, A., Cantarero, M., &amp; Valentinuz, O. (1999). Kernel number determination in maize. <i>Crop Science</i>, 39, 453&ndash;459. <a href="https://agris.fao.org/search/fr/records/65dec1feb766d82b18fe31c4" target="_blank" rel="noopener">AGRIS</a></li>
+        <li>Borr&aacute;s, L., &amp; Otegui, M.E. (2001). Maize kernel weight response to postflowering source&ndash; sink ratio. <i>Crop Science</i>, 41, 1816&ndash;1822. <a href="https://doi.org/10.2135/cropsci2001.1816" target="_blank" rel="noopener">doi.org/10.2135/cropsci2001.1816</a></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+</div>
+  </div>
+</div>
+<script>
+(function(){
+  var root=document.getElementById('tkw-gmo');
   var btns=root.querySelectorAll('.lit-nav button');
   btns.forEach(function(b){b.addEventListener('click',function(){var el=root.querySelector('#'+b.dataset.t); if(el) el.scrollIntoView({behavior:'smooth',block:'start'});});});
   if('IntersectionObserver' in window){

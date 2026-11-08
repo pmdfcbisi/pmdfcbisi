@@ -51,7 +51,8 @@ a.card:hover,a.card:focus-visible{border-color:var(--green);box-shadow:0 4px 14p
 .card b{font-size:17px}.card span.d{color:var(--mute);font-size:13px}
 .go{margin-top:6px;color:var(--green);font-weight:650;font-size:13px}
 footer{text-align:center;color:var(--mute);font-size:12px;margin-top:22px}
-#list{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+#list{display:flex;flex-direction:column;gap:26px;margin-top:14px}
+.grp-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
 .card span.d{flex:1}
 .tab:focus-visible,.btn:focus-visible,.more:focus-visible{outline:2px solid var(--green);outline-offset:2px}
 .msg,.empty{color:var(--mute);margin:8px 0}
@@ -84,7 +85,7 @@ header h1{min-width:0}
 #p-dash{grid-column:1;grid-row:2 / span 2}
 #p-news{grid-column:2;grid-row:2;min-width:0}
 #p-event{grid-column:2;grid-row:3;min-width:0}
-#list{grid-template-columns:repeat(2,minmax(0,1fr))}
+.grp-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
 /* Layar lebar (>=1500px): Dashboard (2 kolom) | Literasi Teknis | Insight | News & Kalender */
 @media(min-width:1500px){
   .layout{grid-template-columns:minmax(0,1fr) 290px 290px 330px}
@@ -96,7 +97,7 @@ header h1{min-width:0}
   #p-event{grid-column:4;grid-row:2}
 }
 .sec{margin:0 0 10px;font-size:12px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--green-d)}
-@media(max-width:900px){.layout{grid-template-columns:1fr}#p-dash,#p-news,#p-event,.lt-wrap{grid-column:1;grid-row:auto}.lt-wrap{grid-template-columns:1fr}#list{grid-template-columns:repeat(auto-fill,minmax(240px,1fr))}#news-list,#event-list{max-height:340px}}
+@media(max-width:900px){.layout{grid-template-columns:1fr}#p-dash,#p-news,#p-event,.lt-wrap{grid-column:1;grid-row:auto}.lt-wrap{grid-template-columns:1fr}.grp-grid{grid-template-columns:repeat(auto-fill,minmax(240px,1fr))}#news-list,#event-list{max-height:340px}}
 .sech{display:flex;align-items:center;justify-content:space-between;margin:0 0 10px}.sech .sec{margin:0}
 .ico{font:inherit;font-size:16px;line-height:1;color:var(--green-d);background:#fff;border:1px solid var(--line);border-radius:8px;padding:3px 8px;cursor:pointer}
 .ico:hover{background:var(--green-l)}.ico:focus-visible{outline:2px solid var(--green);outline-offset:2px}
@@ -356,6 +357,38 @@ body.lit-lock{overflow:hidden}
   .lit .ins-step:not(:last-child)::after{content:"\2193";right:auto;left:50%;top:auto;bottom:-26px;transform:translateX(-50%)}
 }
 
+
+/* ===== KARTU DASHBOARD (diperindah): ikon, warna per kategori, pengelompokan, animasi ===== */
+.grp{--ac:#2e7d32;--ac-l:#e8f2e8;--ac-d:#1f5a24}
+.grp.g-trial{--ac:#6d4aa8;--ac-l:#efe9f8;--ac-d:#4b2f7f}
+.grp.g-demplot{--ac:#2e7d32;--ac-l:#e8f2e8;--ac-d:#1f5a24}
+.grp.g-report{--ac:#1f6fb2;--ac-l:#e3effb;--ac-d:#164f80}
+.grp.g-plan{--ac:#c27a0e;--ac-l:#fdf0d5;--ac-d:#8a5400}
+.grp-h{display:flex;align-items:center;gap:9px;margin:0 0 11px;font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ac-d)}
+.grp-h::before{content:"";width:9px;height:9px;border-radius:3px;background:var(--ac);flex:none}
+.grp-h em{font-style:normal;font-weight:600;font-size:11px;letter-spacing:0;text-transform:none;color:var(--ac-d);background:var(--ac-l);border-radius:999px;padding:1px 8px}
+.grp-h::after{content:"";flex:1;height:1px;background:var(--line)}
+a.card{position:relative;overflow:hidden;gap:8px;padding:18px 18px 16px 20px;background:linear-gradient(155deg,#fff 50%,var(--ac-l) 175%);animation:cardIn .5s ease both;animation-delay:calc(var(--i,0) * 55ms)}
+a.card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--ac)}
+a.card>*:not(.wm){position:relative}
+.c-head{display:flex;align-items:center;gap:10px;margin-bottom:2px}
+.ico{flex:none;display:grid;place-items:center;width:40px;height:40px;border-radius:12px;background:var(--ac-l);color:var(--ac-d);transition:transform .2s,background .2s,color .2s}
+.ico svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+a.card .tag{align-self:center;background:var(--ac-l);color:var(--ac-d);line-height:1.35}
+.badge{margin-left:auto;flex:none;font-size:10.5px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:#fff;background:var(--ac);border-radius:999px;padding:2px 8px}
+.card b{font-size:17px;line-height:1.3}
+.wm{position:absolute;right:-14px;bottom:-18px;width:100px;height:100px;fill:none;stroke:var(--ac);stroke-width:1;stroke-linecap:round;stroke-linejoin:round;opacity:.09;pointer-events:none;transition:opacity .25s,transform .25s}
+.c-foot{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:6px}
+.go{margin:0;color:var(--ac-d);display:inline-flex;align-items:center;gap:6px}
+.go i{font-style:normal;display:inline-block;transition:transform .2s}
+.kind{font-size:11px;color:var(--mute);background:#f1f4f2;border:1px solid var(--line);border-radius:6px;padding:1px 7px}
+a.card:hover,a.card:focus-visible{border-color:var(--ac);box-shadow:0 8px 20px #0002;box-shadow:0 8px 20px color-mix(in srgb,var(--ac) 24%,transparent);transform:translateY(-3px)}
+a.card:hover .ico,a.card:focus-visible .ico{transform:scale(1.08) rotate(-4deg);background:var(--ac);color:#fff}
+a.card:hover .go i,a.card:focus-visible .go i{transform:translateX(5px)}
+a.card:hover .wm,a.card:focus-visible .wm{opacity:.17;transform:scale(1.07) rotate(-4deg)}
+@keyframes cardIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+@media(prefers-reduced-motion:reduce){a.card{animation:none}a.card,.ico,.wm,.go i{transition:none}}
+
 /* UKURAN LOGO BISI */
 .logo {
   width: 60px;
@@ -398,36 +431,96 @@ body.lit-lock{overflow:hidden}
   <div id="list"></div>
   </section>
   <script>
+  // grup: 'trial' | 'demplot' | 'report' | 'plan'   (opsional: badge: 'Baru')
   const APPS = [
-    { nama: 'Portal Proposal PMD FC', ket: 'Portal pengajuan proposal project PMD FC', tag: 'Proposal Project', url: 'https://script.google.com/macros/s/AKfycbw8VQLrYA70jDOc_wzfs2u55NpFUB7nK4u2bQtHSfzO5F_-a5Plra8ahTwR_trVQfNXEg/exec' },
-    { nama: 'Uji Multi Lokasi BMD 10', ket: 'Laporan Uji Multi Lokasi BMD102.', tag: 'Multi Location Trial', url: 'https://script.google.com/macros/s/AKfycbwsVAyHxrf4s-VN17tb5ppWHX9GflR2W0AwqqZmWoXdTMHNjUpXffadgX9idz6mLTW_/exec' },
-    { nama: 'Uji Multi Lokasi GMO vs Non GMO 2026', ket: 'Laporan uji multi-lokasi dan comparison GMO vs Non GMO.', tag: 'Multi Location Trial', url: 'https://script.google.com/macros/s/AKfycbxqj8nY8qYC9ntCbrlLSY36_VIWw4-jKU1eXSvX1OxvYwTTvQvcJeNel4KXfazfHdfJxw/exec' },
-    { nama: 'PMD-FC Monthly Projects Report (versi Web App)', ket: 'Monitoring project, demplot, dan trial.', tag: 'MONTHLY REPORT 2026/2027', url: 'https://script.google.com/macros/s/AKfycbwjCkiVtG_NoqKsbqqjX8v7vM2oh2MAJvSy-NTBWrTbXct0STox7BF4tjfbiX6EgOym/exec' },
-    { nama: 'Laporan Demplot Master', ket: 'Laporan Standing Crop Master.', tag: 'Demoplot', url: 'https://docs.google.com/spreadsheets/d/1xDhiCtWnsQCTd6EtY7sJr-2mx8ruwqiVPIGGKgUhCEc/edit?gid=299302994#gid=299302994' },
-    { nama: 'VTE Participatory', ket: 'Portal input data respon preferensi performa Genotype ', tag: 'Input Data VTE', url: 'https://script.google.com/macros/s/AKfycbzXIMOP52iKmFC0ENHE3UhFfPgTbvmJrZK37tAsKZvsid2SYnBp6ic3Z0FkabE7xjpEeA/exec' },
-    { nama: 'Demplot Key Farmer Padi', ket: 'Laporan Demoplot Key Farmer Padi Hibrida', tag: 'Demplot', url: 'https://docs.google.com/spreadsheets/d/1BVoO3831IUGtSJ1_qZ0tDSzMbiLkE5M5ZB6K9u6LcYs/edit?gid=1130820725#gid=1130820725' },
-    { nama: 'Project Planning 2027', ket: 'Rencana Demplot, Trial & PMD Project 2027', tag: 'Planning 2027', url: 'https://docs.google.com/spreadsheets/d/12IMzJqdieSJS7rwpWIJ2zVcWjwngwd3tkB4D5IUKphQ/edit?gid=623540740#gid=623540740' },
-    { nama: 'DPR PADI BATCH 2', ket: 'Laporan Demplot Padi Batch 2', tag: 'Uji Multi Lokasi Padi Batch 2', url: 'https://script.google.com/macros/s/AKfycbyjlUMvsUZvKJPAMw2a7WVm2JoCrVlPq4BfazIAIngxJDoMvMO6X5LMt4DKzdBmAY61nQ/exec' }
+    { nama: 'Portal Proposal PMD FC', grup: 'plan', ket: 'Portal pengajuan proposal project PMD FC', tag: 'Proposal Project', url: 'https://script.google.com/macros/s/AKfycbw8VQLrYA70jDOc_wzfs2u55NpFUB7nK4u2bQtHSfzO5F_-a5Plra8ahTwR_trVQfNXEg/exec' },
+    { nama: 'Uji Multi Lokasi BMD 10', grup: 'trial', ket: 'Laporan Uji Multi Lokasi BMD102.', tag: 'Multi Location Trial', url: 'https://script.google.com/macros/s/AKfycbwsVAyHxrf4s-VN17tb5ppWHX9GflR2W0AwqqZmWoXdTMHNjUpXffadgX9idz6mLTW_/exec' },
+    { nama: 'Uji Multi Lokasi GMO vs Non GMO 2026', grup: 'trial', ket: 'Laporan uji multi-lokasi dan comparison GMO vs Non GMO.', tag: 'Multi Location Trial', url: 'https://script.google.com/macros/s/AKfycbxqj8nY8qYC9ntCbrlLSY36_VIWw4-jKU1eXSvX1OxvYwTTvQvcJeNel4KXfazfHdfJxw/exec' },
+    { nama: 'PMD-FC Monthly Projects Report (versi Web App)', grup: 'report', ket: 'Monitoring project, demplot, dan trial.', tag: 'MONTHLY REPORT 2026/2027', url: 'https://script.google.com/macros/s/AKfycbwjCkiVtG_NoqKsbqqjX8v7vM2oh2MAJvSy-NTBWrTbXct0STox7BF4tjfbiX6EgOym/exec' },
+    { nama: 'Laporan Demplot Master', grup: 'demplot', ket: 'Laporan Standing Crop Master.', tag: 'Demoplot', url: 'https://docs.google.com/spreadsheets/d/1xDhiCtWnsQCTd6EtY7sJr-2mx8ruwqiVPIGGKgUhCEc/edit?gid=299302994#gid=299302994' },
+    { nama: 'VTE Participatory', grup: 'plan', ket: 'Portal input data respon preferensi performa Genotype ', tag: 'Input Data VTE', url: 'https://script.google.com/macros/s/AKfycbzXIMOP52iKmFC0ENHE3UhFfPgTbvmJrZK37tAsKZvsid2SYnBp6ic3Z0FkabE7xjpEeA/exec' },
+    { nama: 'Demplot Key Farmer Padi', grup: 'demplot', ket: 'Laporan Demoplot Key Farmer Padi Hibrida', tag: 'Demplot', url: 'https://docs.google.com/spreadsheets/d/1BVoO3831IUGtSJ1_qZ0tDSzMbiLkE5M5ZB6K9u6LcYs/edit?gid=1130820725#gid=1130820725' },
+    { nama: 'Project Planning 2027', grup: 'plan', ket: 'Rencana Demplot, Trial & PMD Project 2027', tag: 'Planning 2027', url: 'https://docs.google.com/spreadsheets/d/12IMzJqdieSJS7rwpWIJ2zVcWjwngwd3tkB4D5IUKphQ/edit?gid=623540740#gid=623540740' },
+    { nama: 'DPR PADI BATCH 2', grup: 'trial', ket: 'Laporan Demplot Padi Batch 2', tag: 'Uji Multi Lokasi Padi Batch 2', url: 'https://script.google.com/macros/s/AKfycbyjlUMvsUZvKJPAMw2a7WVm2JoCrVlPq4BfazIAIngxJDoMvMO6X5LMt4DKzdBmAY61nQ/exec' }
   ];
 
+  const GROUPS = [
+    { k: 'trial',   t: 'Trial & Uji Multi Lokasi' },
+    { k: 'demplot', t: 'Demplot' },
+    { k: 'report',  t: 'Monitoring & Report' },
+    { k: 'plan',    t: 'Perencanaan & Input Data' },
+    { k: 'lain',    t: 'Lainnya' }
+  ];
+  const ICONS = {
+    trial:   '<path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/>',
+    demplot: '<path d="M12 21v-9"/><path d="M12 12c0-4 2.5-6.5 7-6.5 0 4-2.5 6.5-7 6.5z"/><path d="M12 15c0-3-2-5-6-5 0 3 2 5 6 5z"/>',
+    report:  '<path d="M4 4v16h16"/><rect x="7.5" y="12" width="3" height="5" rx=".6"/><rect x="12.5" y="8" width="3" height="9" rx=".6"/><rect x="17.5" y="10.5" width="2.5" height="6.5" rx=".6"/>',
+    plan:    '<rect x="6" y="4.5" width="12" height="16.5" rx="2"/><path d="M9 4.5h6V7H9z"/><path d="M9 13.5l2 2 4-4"/>',
+    lain:    '<circle cx="12" cy="12" r="8"/><path d="M12 8v4l3 2"/>'
+  };
+  const SVG = function (k, cls) {
+    return '<svg class="' + cls + '" viewBox="0 0 24 24" aria-hidden="true">' + ICONS[k] + '</svg>';
+  };
+  const kindOf = function (u) {
+    if (/docs\.google\.com\/spreadsheets/.test(u)) return 'Spreadsheet';
+    if (/script\.google\.com/.test(u)) return 'Web App';
+    return 'Tautan';
+  };
+
   const list = document.getElementById('list');
-  APPS.forEach(function (a) {
-    const el = document.createElement('a');
-    el.className = 'card';
-    el.href = a.url;
-    el.target = '_blank';
-    el.rel = 'noopener noreferrer';
+  let n = 0;
+  GROUPS.forEach(function (g) {
+    const items = APPS.filter(function (a) {
+      const key = GROUPS.some(function (x) { return x.k === a.grup; }) ? a.grup : 'lain';
+      return key === g.k;
+    });
+    if (!items.length) return;
 
-    const tag = document.createElement('span');
-    tag.className = 'tag'; tag.textContent = a.tag;
-    const nm = document.createElement('b'); nm.textContent = a.nama;
-    const d = document.createElement('span');
-    d.className = 'd'; d.textContent = a.ket;
-    const go = document.createElement('span');
-    go.className = 'go'; go.textContent = 'Buka \u2192';
+    const wrap = document.createElement('div');
+    wrap.className = 'grp g-' + g.k;
+    const hd = document.createElement('div');
+    hd.className = 'grp-h';
+    hd.textContent = g.t + ' ';
+    const cnt = document.createElement('em'); cnt.textContent = items.length;
+    hd.appendChild(cnt);
+    const grid = document.createElement('div');
+    grid.className = 'grp-grid';
 
-    el.append(tag, nm, d, go);
-    list.appendChild(el);
+    items.forEach(function (a) {
+      const el = document.createElement('a');
+      el.className = 'card';
+      el.href = a.url;
+      el.target = '_blank';
+      el.rel = 'noopener noreferrer';
+      el.style.setProperty('--i', n++);
+
+      el.insertAdjacentHTML('beforeend', SVG(g.k, 'wm'));
+
+      const head = document.createElement('div'); head.className = 'c-head';
+      const ico = document.createElement('span'); ico.className = 'ico';
+      ico.innerHTML = SVG(g.k, '');
+      const tag = document.createElement('span');
+      tag.className = 'tag'; tag.textContent = a.tag;
+      head.append(ico, tag);
+      if (a.badge) { const bd = document.createElement('span'); bd.className = 'badge'; bd.textContent = a.badge; head.appendChild(bd); }
+
+      const nm = document.createElement('b'); nm.textContent = a.nama;
+      const d = document.createElement('span');
+      d.className = 'd'; d.textContent = a.ket;
+
+      const foot = document.createElement('div'); foot.className = 'c-foot';
+      const go = document.createElement('span'); go.className = 'go';
+      go.append('Buka ');
+      const ar = document.createElement('i'); ar.textContent = '→'; go.appendChild(ar);
+      const kd = document.createElement('span'); kd.className = 'kind'; kd.textContent = kindOf(a.url);
+      foot.append(go, kd);
+
+      el.append(head, nm, d, foot);
+      grid.appendChild(el);
+    });
+
+    wrap.append(hd, grid);
+    list.appendChild(wrap);
   });
   </script>
 

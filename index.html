@@ -191,6 +191,34 @@ header .clock{margin-left:0}
   justify-content: space-between;
   gap: 20px;
 }
+/* SHIMMER HALUS: hanya pada banner hero, tanpa mengubah elemen lain. */
+.hero::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 42%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+  background: linear-gradient(
+    110deg,
+    transparent 0%,
+    rgba(255,255,255,.035) 35%,
+    rgba(255,255,255,.19) 50%,
+    rgba(255,255,255,.035) 65%,
+    transparent 100%
+  );
+  transform: translateX(-160%) skewX(-18deg);
+  animation: heroBannerShimmer 7s ease-in-out infinite;
+}
+@keyframes heroBannerShimmer {
+  0%, 16% { transform: translateX(-160%) skewX(-18deg); }
+  58%, 100% { transform: translateX(360%) skewX(-18deg); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero::before { animation: none; }
+}
 .hero::after {
   content: "";
   position: absolute;

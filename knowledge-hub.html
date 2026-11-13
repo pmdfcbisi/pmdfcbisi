@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>PMD-FC BISI — Dashboard Gate — Knowledge Hub</title>
+<title>PMD FC Portal — Knowledge Hub</title>
 <meta name="theme-color" content="#1f4d29">
 <style>
 :root {
@@ -951,37 +951,31 @@ a.card:hover .wm,a.card:focus-visible .wm{opacity:.17;transform:scale(1.07) rota
 .portal-nav a{
   display:inline-flex;align-items:center;padding:8px 15px;
   border-radius:9px;text-decoration:none;color:#425466;
-  font-size:13px;font-weight:650;transition:.15s;
+  font-size:16px;font-weight:700;transition:.15s;
 }
 .portal-nav a:hover{background:#eef4f0;color:#1f4d29}
 .portal-nav a.active{background:#e8f2e8;color:#1f4d29}
-.portal-page-title{margin:0 0 5px;font-size:12px;font-weight:700;
-  letter-spacing:.07em;text-transform:uppercase;color:#64748b}
-body.page-home .layout,
-body.page-apps .layout,
-body.page-knowledge .layout{display:block}
-body.page-home #p-dash,
-body.page-home .lt-wrap,
-body.page-apps .lt-wrap,
-body.page-apps .updates-row,
-body.page-knowledge #p-dash,
-body.page-knowledge .updates-row{display:none!important}
-body.page-home .updates-row{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:22px}
+body.page-apps .lt-wrap,body.page-apps .updates-row{display:none!important}
 body.page-apps #p-dash{display:block!important}
-body.page-apps #p-dash .grp-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+body.page-apps .layout{display:block}
+body.page-knowledge #p-dash,body.page-knowledge .updates-row{display:none!important}
 body.page-knowledge .lt-wrap{
-  display:grid!important;
-  grid-template-columns:repeat(2,minmax(0,1fr));
+  display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr));
   gap:22px 24px;align-items:start;
 }
-body.page-knowledge #p-lit,
-body.page-knowledge #p-ins{display:flex!important;min-width:0}
+body.page-knowledge #p-lit,body.page-knowledge #p-ins{
+  display:flex!important;min-width:0;grid-column:auto!important;grid-row:auto!important;
+}
 body.page-knowledge .lt-stack{grid-template-columns:1fr}
+body.page-news #p-dash,body.page-news .lt-wrap{display:none!important}
+body.page-news .updates-row{
+  display:grid!important;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:22px
+}
 @media(max-width:900px){
   .portal-nav{padding:9px 14px;gap:4px}
   .portal-nav a{padding:8px 11px}
-  body.page-home .updates-row{grid-template-columns:1fr}
   body.page-knowledge .lt-wrap{grid-template-columns:1fr}
+  body.page-news .updates-row{grid-template-columns:1fr}
 }
 @media(max-width:620px){
   body.page-apps #p-dash .grp-grid{grid-template-columns:1fr}
@@ -995,9 +989,9 @@ body.page-knowledge .lt-stack{grid-template-columns:1fr}
   </section><div class="clock"><div id="ck-date"></div><div id="ck-time"></div></div></header>
 
 <nav class="portal-nav" aria-label="Navigasi utama PMD FC">
-  <a href="index.html" data-page="home">Beranda</a>
-  <a href="app-hub.html" data-page="apps">App Hub</a>
+  <a href="index.html" data-page="apps">App Hub</a>
   <a href="knowledge-hub.html" data-page="knowledge" class="active" aria-current="page">Knowledge Hub</a>
+  <a href="news-events.html" data-page="news">News Update &amp; Kalender Event</a>
 </nav>
 
 <main>
